@@ -16,7 +16,6 @@ def quasi_newton_method(sample, first_params, first_log_likelihood, first_deriva
     x = np.array(first_params)
     H = np.linalg.inv(np.eye(len(first_params)))
     g = np.array(first_derivative_scores)
-    print(g)
     params = [x]
     aics = [-2 * first_log_likelihood + 2 * param_number]
     derivatives = [g]
