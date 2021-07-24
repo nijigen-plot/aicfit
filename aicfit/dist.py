@@ -57,6 +57,18 @@ def quasi_newton_method(sample, first_params, first_log_likelihood, first_deriva
         return params[-1], aics[-1], derivatives[-1]
         
 
+class normal:
+    def __init__(self, x, mu, var):
+        self.x = x
+        self.mu = mu
+        self.var = var
+        self.log_likelihood = calc.normal_log_likelihood(self.x, self.mu, self.var)
+        self.mu0_derivative_score, self.var0_derivative_score = calc.normal_derivative(self.x, self.mu, self.var)
+        self.column_name = ['mu', 'var', 'aic', 'mu_derivative', 'var_derivative']
+    
+    def fit(self, df_out=False):
+        return quasi_newton_method(self.x, [self.mu, self.var], self.log_likelihood, [self.mu0_derivative_score, self.var0_derivative_score], calc.normal_log_likelihood, calc.normal_derivative, self.column_name, df_out)
+
 
 class cauchy:
     def __init__(self, x, mu, tau):
