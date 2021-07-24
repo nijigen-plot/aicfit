@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 from itertools import product
-import calc
+from aicfit import calc
 
 def quasi_newton_method(sample, first_params, first_log_likelihood, first_derivative_scores, log_calc, derivative_calc, c, df_out=False):
     finish_flag = False
