@@ -16,6 +16,6 @@ def cauchy_log_likelihood(x, mu, tau):
     return (-np.log(np.pi) + (np.log(tau) / 2) - (np.log( ((x - mu) ** 2) + tau ))).sum()
 
 def cauchy_derivative(x, mu, tau):
-    mu_d = 2 * ((x - mu) / (((x - mu) ** 2) + tau)).sum()
-    tau_d = (5 / tau) - (1 / ( ((x - mu) ** 2) + tau)).sum()
+    mu_d = ((2*x - 2*mu) / (((x - mu)**2 ) + tau)).sum()
+    tau_d = ((1 / 2*tau) - ( 1 / (((x - mu)**2) + tau))).sum()
     return mu_d, tau_d
