@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from itertools import product
 from aicfit import calc
+from tqdm import tqdm
 
 def quasi_newton_method(sample, first_params, first_log_likelihood, first_derivative_scores, log_calc, derivative_calc, c, df_out=False):
     finish_flag = False
@@ -20,7 +21,7 @@ def quasi_newton_method(sample, first_params, first_log_likelihood, first_deriva
     aics = [-2 * first_log_likelihood + 2 * param_number]
     derivatives = [g]
     # 探索
-    for i in range(repeat_number):
+    for i in tqdm(range(repeat_number)):
         hk = H * g
         derivative_result = np.array([ derivative_calc( sample, *(x - np.dot(lk, hk))) for lk in lambda_sample])
         fx_array = np.array([ np.abs(i).sum() for i in derivative_result])
