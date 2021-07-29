@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.special import gammaln
+from scipy.special import gammaln, digamma, xlogy
 
 # 各分布の対数尤度とパラメータ偏微分値を計算
 
@@ -18,6 +18,14 @@ def poisson_log_likelihood(x, lambda_):
 
 def poisson_derivative(x, lambda_):
     return (1 + (x / lambda_))
+
+# negative binomial distribution (r = number of failures, p = success probability)
+def nbinom_log_likelihood(x, r, p):
+    return np.log(gammaln(x + r) / (gammaln(x + 1) * gammaln(r))) + xlogy(x, p) + xlogy(r, (1 - p))
+
+def nbinom_derivative(x, r, p):
+    r_d = (digamma(x + r) * digamma(1 / (x + 1)) * digamma(1 / r)) + np.log(1 - p)
+    p_d = (x / p) - (r / (1 - p))
 
 # cauchy distribution
 def cauchy_log_likelihood(x, mu, tau):
