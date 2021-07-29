@@ -69,6 +69,29 @@ class normal:
     def fit(self, df_out=False):
         return quasi_newton_method(self.x, [self.mu, self.var], self.log_likelihood, [self.mu0_derivative_score, self.var0_derivative_score], calc.normal_log_likelihood, calc.normal_derivative, self.column_name, df_out)
 
+class poisson:
+    def __init__(self, x, lambda_):
+        self.x = x
+        self.lambda_ = lambda_
+        self.log_likelihood = calc.poisson_log_likelihood(self.x, self.lambda_)
+        self.lambda_0_derivative_score = calc.poisson_derivative(self.x, self.lambda_)
+        self.column_name = ['lambda', 'aic', 'lambda_derivative']
+    
+    def fit(self, df_out=False):
+        return quasi_newton_method(self.x, [self.lambda_], self.log_likelihood, [self.lambda_0_derivative_score], calc.poisson_log_likelihood, calc.poisson_derivative, self.column_name, df_out)
+
+class nbinom:
+    def __init__(self, x, r, p):
+        self.x = x
+        self.r = r
+        self.p = p
+        self.log_likelihood = calc.nbinom_log_likelihood(self.x, self.r, self.p)
+        self.r0_derivative_score, self.p0_derivative_score = calc.nbinom_derivative(self.x, self.r, self.p)
+        self.column_name = ['r', 'p', 'aic','r_derivative', 'p_derivative']
+    
+    def fit(self, df_out=False):
+        return quasi_newton_method(self.x, [self.r, self.p], self.log_likelihood, [self.r0_derivative_score, self.p0_derivative_score], calc.nbinom_log_likelihood, calc.nbinom_derivative, self.column_name, df_out)
+
 
 class cauchy:
     def __init__(self, x, mu, tau):
