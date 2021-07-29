@@ -29,7 +29,6 @@ def nbinom_derivative(x, r, p):
 
 # cauchy distribution
 def cauchy_log_likelihood(x, mu, tau):
-    # return (5 * np.log(tau)) - (10 * np.log(np.pi)) - (np.log( ((x - mu) ** 2) + tau )).sum()
     return (-np.log(np.pi) + (np.log(tau) / 2) - (np.log( ((x - mu) ** 2) + tau ))).sum()
 
 def cauchy_derivative(x, mu, tau):
